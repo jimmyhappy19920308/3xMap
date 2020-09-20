@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
   <link rel="stylesheet" href="./css/all.min.css">
 </head>
+
 <body>
   <section class="container">
     <aside class="sidebar active">
@@ -16,7 +20,8 @@
           <h2 class="h2 text-white ">星期二</h2>
           <div class="d-flex flex-column">
             <p class="date mb-0 text-right text-white">2020-07-21</p>
-            <p class="todayLimitLastIdNumber text-white mb-0">身分證末碼為<span class="h4 text-warning">2,4,6,8,0</span>可領取</p>
+            <p class="todayLimitLastIdNumber text-white mb-0">身分證末碼為<span class="h4 text-warning">2,4,6,8,0</span>可領取
+            </p>
           </div>
         </div>
         <!-- <div class="input-group">
@@ -49,10 +54,16 @@
           <button class="btn btn-dark3 text-white">三倍券庫存量：0</button>
         </li>
       </ul>
-      <a href="#" class="sidebarSwitch d-flex align-items-center bg-primary"><i class="material-icons text-white">keyboard_arrow_left</i></a>
+      <a href="#" class="sidebarSwitch d-flex align-items-center bg-primary"><i
+          class="material-icons text-white">keyboard_arrow_left</i></a>
     </aside>
     <main id="map"></main>
   </section>
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
   <script src="./all.js"></script>
 </body>
+
 </html>
