@@ -8,6 +8,7 @@ const sidebar = document.querySelector('.sidebar');
 const mapElement = document.getElementById('map');
 const list = document.querySelector('.list');
 const city = document.querySelector('.city');
+const area = document.querySelector('.area');
 
 // 伸縮 sidebar
 sidebarSwitch.addEventListener('click', function (e) {
@@ -97,6 +98,7 @@ Promise.all([get3000Datas, getCityDatas])
 
     city.addEventListener('change', function(e){
       let listStr = '';
+      let areaStr = '';
       selectedCity = e.target.value;
 
       const listDatas = ticketDatas.filter(function(item){
@@ -121,6 +123,16 @@ Promise.all([get3000Datas, getCityDatas])
         `;
       }
       list.innerHTML = listStr;
+
+      let cityList = cityDatas.filter(function(item){
+        return item.CityName === selectedCity;
+      });
+
+      areaStr += `<option value="選擇地區">選擇地區</option>`;
+      cityList[0].AreaList.forEach(function(item){
+        areaStr += `<option value="${item.AreaName}">${item.AreaName}</option>`
+      });
+      area.innerHTML = areaStr;
     });
   })
   .catch(function (err) {
