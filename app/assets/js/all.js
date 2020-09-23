@@ -6,6 +6,8 @@ $(document).ready(() => {
 const sidebarSwitch = document.querySelector('.sidebarSwitch');
 const sidebar = document.querySelector('.sidebar');
 const mapElement = document.getElementById('map');
+const list = document.querySelector('.list');
+const city = document.querySelector('.city');
 
 // 伸縮 sidebar
 sidebarSwitch.addEventListener('click', function (e) {
@@ -71,6 +73,9 @@ Promise.all([get3000Datas, getCityDatas])
   .then(res => {
     const ticketDatas = res[0]; // 將撈取到的三倍券即時領券量資料存到變數中
     const cityDatas = res[1]; // 將撈取到的各縣市地區資料存到變數中
+    let selectedCity;
+    let cityStr = '';
+    let btnColor = '';
 
     for (let i = 0; ticketDatas.length > i; i++) {
       let mask;
@@ -83,6 +88,40 @@ Promise.all([get3000Datas, getCityDatas])
         icon: mask
       }).bindPopup(`<h5>${ticketDatas[i].storeNm}</h5><p>${ticketDatas[i].addr}</p><p>${ticketDatas[i].tel}</p><p>營業時間:${ticketDatas[i].busiTime}</p><p>備註:${ticketDatas[i].busiMemo}</p><p>剩餘受理量:${ticketDatas[i].total}</p>`));
     }
+
+    cityStr += `<option value="選擇縣市">選擇縣市</option>`;
+    cityDatas.forEach(function(item, index){
+      cityStr += `<option value="${item.CityName}">${item.CityName}</option>`;
+    });
+    city.innerHTML = cityStr;
+
+    city.addEventListener('change', function(e){
+      let listStr = '';
+      selectedCity = e.target.value;
+
+      const listDatas = ticketDatas.filter(function(item){
+        return item.addr.includes(selectedCity);
+      });
+
+      for (let i = 0; listDatas.length > i; i++) {
+        if(listDatas[i].total > 0) {
+          btnColor = 'btn-primary';
+        }else{
+          btnColor = 'btn-gray';
+        }
+
+        listStr += `
+          <li class="py-3 mx-3 border-bottom">
+            <h6 class="h5 font-weight-bold text-dark my-2">${listDatas[i].storeNm}</h6>
+            <p class="text-grayer mb-1">地址：${listDatas[i].zipCd} ${listDatas[i].addr}</p>
+            <p class="text-grayer mb-1">電話：${listDatas[i].tel}</p>
+            <p class="text-grayer mb-2">營業時間：${listDatas[i].busiTime}</p>
+            <button class="btn ${btnColor} rounded-pill text-white">三倍券庫存量：<strong>${listDatas[i].total}</strong></button>
+          </li>
+        `;
+      }
+      list.innerHTML = listStr;
+    });
   })
   .catch(function (err) {
     console.log(err);
