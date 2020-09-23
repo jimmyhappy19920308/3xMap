@@ -80,14 +80,17 @@ Promise.all([get3000Datas, getCityDatas])
 
     for (let i = 0; ticketDatas.length > i; i++) {
       let mask;
+      let ticketCountColor;
       if (ticketDatas[i].total === 0) {
         mask = redIcon;
+        ticketCountColor = 'text-danger';
       } else {
         mask = greenIcon;
+        ticketCountColor = 'text-success';
       }
       markers.addLayer(L.marker([ticketDatas[i].latitude, ticketDatas[i].longitude], {
         icon: mask
-      }).bindPopup(`<h5>${ticketDatas[i].storeNm}</h5><p>${ticketDatas[i].addr}</p><p>${ticketDatas[i].tel}</p><p>營業時間:${ticketDatas[i].busiTime}</p><p>備註:${ticketDatas[i].busiMemo}</p><p>剩餘受理量:${ticketDatas[i].total}</p>`));
+      }).bindPopup(`<h5>${ticketDatas[i].storeNm}</h5><p>地址：${ticketDatas[i].addr}</p><p>電話：${ticketDatas[i].tel}</p><p>營業時間：${ticketDatas[i].busiTime}</p><p>剩餘受理量：<strong class="${ticketCountColor}">${ticketDatas[i].total}</strong></p><p>備註：${ticketDatas[i].busiMemo}</p>`));
     }
 
     cityStr += `<option value="選擇縣市">選擇縣市</option>`;
