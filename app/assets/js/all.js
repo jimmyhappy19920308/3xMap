@@ -134,6 +134,34 @@ Promise.all([get3000Datas, getCityDatas])
       });
       area.innerHTML = areaStr;
     });
+
+    area.addEventListener('change', function(e){
+      let selectedArea = e.target.value;
+      let listStr = '';
+
+      const listDatas = ticketDatas.filter(item => {
+        return item.addr.includes(selectedCity+selectedArea);
+      });
+
+      for(let i = 0; i < listDatas.length; i++){
+        if(listDatas[i].total > 0) {
+          btnColor = 'btn-primary';
+        }else{
+          btnColor = 'btn-gray';
+        }
+
+        listStr +=`
+          <li class="py-3 mx-3 border-bottom">
+            <h6 class="h5 font-weight-bold text-dark my-2">${listDatas[i].storeNm}</h6>
+            <p class="text-grayer mb-1">地址：${listDatas[i].zipCd} ${listDatas[i].addr}</p>
+            <p class="text-grayer mb-1">電話：${listDatas[i].tel}</p>
+            <p class="text-grayer mb-2">營業時間：${listDatas[i].busiTime}</p>
+            <button class="btn ${btnColor} rounded-pill text-white">三倍券庫存量：<strong>${listDatas[i].total}</strong></button>
+          </li>
+        `;
+      }
+      list.innerHTML = listStr;
+    });
   })
   .catch(function (err) {
     console.log(err);
