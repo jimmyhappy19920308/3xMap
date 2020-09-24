@@ -90,7 +90,7 @@ Promise.all([get3000Datas, getCityDatas])
       }
       markers.addLayer(L.marker([ticketDatas[i].latitude, ticketDatas[i].longitude], {
         icon: mask
-      }).bindPopup(`<h5>${ticketDatas[i].storeNm}</h5><p>地址：${ticketDatas[i].addr}</p><p>電話：${ticketDatas[i].tel}</p><p>營業時間：${ticketDatas[i].busiTime}</p><p>剩餘受理量：<strong class="${ticketCountColor}">${ticketDatas[i].total}</strong></p><p>備註：${ticketDatas[i].busiMemo}</p>`));
+      }).bindPopup(`<h5>${ticketDatas[i].storeNm}</h5><p>地址：${ticketDatas[i].addr}</p><p>電話：${ticketDatas[i].tel}</p><p>營業時間：${ticketDatas[i].busiTime}</p><p>剩餘受理量：<strong class="${ticketCountColor}">${ticketDatas[i].total}</strong></p><p>資訊更新時間：${ticketDatas[i].updateTime}</p><p>備註：${ticketDatas[i].busiMemo}</p>`));
     }
 
     cityStr += `<option value="選擇縣市">選擇縣市</option>`;
