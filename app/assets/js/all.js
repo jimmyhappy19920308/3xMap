@@ -117,7 +117,7 @@ Promise.all([get3000Datas, getCityDatas])
 
         listStr += `
           <li class="py-3 mx-3 border-bottom">
-            <h6 class="h5 font-weight-bold text-dark my-2">${listDatas[i].storeNm}</h6>
+            <h5 class="h5 d-flex justify-content-between font-weight-bold text-dark my-2">${listDatas[i].storeNm}<div><a href="#" class="d-inline-block align-middle showTargetMarker" data-lon="${listDatas[i].longitude}" data-lat="${listDatas[i].latitude}"><i class="material-icons h2 mb-0 text-primary">visibility</i></a></div></h5>
             <p class="text-grayer mb-1">地址：${listDatas[i].zipCd} ${listDatas[i].addr}</p>
             <p class="text-grayer mb-1">電話：${listDatas[i].tel}</p>
             <p class="text-grayer mb-2">營業時間：${listDatas[i].busiTime}</p>
@@ -155,7 +155,7 @@ Promise.all([get3000Datas, getCityDatas])
 
         listStr +=`
           <li class="py-3 mx-3 border-bottom">
-            <h6 class="h5 font-weight-bold text-dark my-2">${listDatas[i].storeNm}</h6>
+          <h5 class="h5 d-flex justify-content-between font-weight-bold text-dark my-2">${listDatas[i].storeNm}<div><a href="#" class="d-inline-block align-middle showTargetMarker" data-lon="${listDatas[i].longitude}" data-lat="${listDatas[i].latitude}"><i class="material-icons h2 mb-0 text-primary">visibility</i></a></div></h5>
             <p class="text-grayer mb-1">地址：${listDatas[i].zipCd} ${listDatas[i].addr}</p>
             <p class="text-grayer mb-1">電話：${listDatas[i].tel}</p>
             <p class="text-grayer mb-2">營業時間：${listDatas[i].busiTime}</p>
