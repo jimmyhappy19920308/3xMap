@@ -116,7 +116,12 @@ Promise.all([get3000Datas, getCityDatas])
       }).bindPopup(`<h5>${ticketDatas[i].storeNm}</h5><p>地址：${ticketDatas[i].addr}</p><p>電話：${ticketDatas[i].tel}</p><p>營業時間：${ticketDatas[i].busiTime}</p><p>剩餘受理量：<strong class="${ticketCountColor}">${ticketDatas[i].total}</strong></p><p>資訊更新時間：${ticketDatas[i].updateTime}</p><p>備註：${ticketDatas[i].busiMemo}</p>`));
     }
 
-    cityStr += `<option value="選擇縣市">選擇縣市</option>`;
+    // 首次載入頁面時側邊欄中預設顯示台北市的資料列表
+    const listDatas = ticketDatas.filter(function(item){
+      return item.hsnNm === '臺北市';
+    });
+    renderList(listDatas);
+
     cityDatas.forEach(function(item, index){
       cityStr += `<option value="${item.CityName}">${item.CityName}</option>`;
     });
