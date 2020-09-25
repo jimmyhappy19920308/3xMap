@@ -103,7 +103,7 @@ function setViewTargetMarker() {
       const lng = Number(e.target.dataset.lng);
       const latLng = L.latLng(lat, lng);
       
-      map.panTo(latLng);
+      map.setView(latLng, 16);
       markers.eachLayer(function(layer) {
         if(layer._latlng.lat === lat && layer._latlng.lng === lng){
           layer.openPopup();
