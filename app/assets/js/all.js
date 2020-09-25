@@ -127,7 +127,7 @@ Promise.all([get3000Datas, getCityDatas])
     for (let i = 0; ticketDatas.length > i; i++) {
       let mask;
       let ticketCountColor;
-      if (ticketDatas[i].total === 0) {
+      if (Number(ticketDatas[i].total) === 0) {
         mask = redIcon;
         ticketCountColor = 'text-danger';
       } else {
