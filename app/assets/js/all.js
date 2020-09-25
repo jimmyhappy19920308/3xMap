@@ -67,6 +67,18 @@ function getUrl(url) {
   });
 }
 
+function renderList(){
+  return `
+    <li class="py-3 mx-3 border-bottom">
+      <h5 class="h5 d-flex justify-content-between font-weight-bold text-dark my-2">${listDatas[i].storeNm}<div><a href="#" class="d-inline-block align-middle showTargetMarker" data-lon="${listDatas[i].longitude}" data-lat="${listDatas[i].latitude}"><i class="material-icons h2 mb-0 text-primary">visibility</i></a></div></h5>
+      <p class="text-grayer mb-1">地址：${listDatas[i].zipCd} ${listDatas[i].addr}</p>
+      <p class="text-grayer mb-1">電話：${listDatas[i].tel}</p>
+      <p class="text-grayer mb-2">營業時間：${listDatas[i].busiTime}</p>
+      <button class="btn ${btnColor} rounded-pill text-white">三倍券庫存量：<strong>${listDatas[i].total}</strong></button>
+    </li>
+  `;
+}
+
 const get3000Datas = getUrl('https://3000.gov.tw/hpgapi-openmap/api/getPostData');
 const getCityDatas = getUrl('https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json');
 
@@ -115,15 +127,7 @@ Promise.all([get3000Datas, getCityDatas])
           btnColor = 'btn-gray';
         }
 
-        listStr += `
-          <li class="py-3 mx-3 border-bottom">
-            <h5 class="h5 d-flex justify-content-between font-weight-bold text-dark my-2">${listDatas[i].storeNm}<div><a href="#" class="d-inline-block align-middle showTargetMarker" data-lon="${listDatas[i].longitude}" data-lat="${listDatas[i].latitude}"><i class="material-icons h2 mb-0 text-primary">visibility</i></a></div></h5>
-            <p class="text-grayer mb-1">地址：${listDatas[i].zipCd} ${listDatas[i].addr}</p>
-            <p class="text-grayer mb-1">電話：${listDatas[i].tel}</p>
-            <p class="text-grayer mb-2">營業時間：${listDatas[i].busiTime}</p>
-            <button class="btn ${btnColor} rounded-pill text-white">三倍券庫存量：<strong>${listDatas[i].total}</strong></button>
-          </li>
-        `;
+        listStr += renderList();
       }
       list.innerHTML = listStr;
 
@@ -153,15 +157,7 @@ Promise.all([get3000Datas, getCityDatas])
           btnColor = 'btn-gray';
         }
 
-        listStr +=`
-          <li class="py-3 mx-3 border-bottom">
-          <h5 class="h5 d-flex justify-content-between font-weight-bold text-dark my-2">${listDatas[i].storeNm}<div><a href="#" class="d-inline-block align-middle showTargetMarker" data-lon="${listDatas[i].longitude}" data-lat="${listDatas[i].latitude}"><i class="material-icons h2 mb-0 text-primary">visibility</i></a></div></h5>
-            <p class="text-grayer mb-1">地址：${listDatas[i].zipCd} ${listDatas[i].addr}</p>
-            <p class="text-grayer mb-1">電話：${listDatas[i].tel}</p>
-            <p class="text-grayer mb-2">營業時間：${listDatas[i].busiTime}</p>
-            <button class="btn ${btnColor} rounded-pill text-white">三倍券庫存量：<strong>${listDatas[i].total}</strong></button>
-          </li>
-        `;
+        listStr += renderList();
       }
       list.innerHTML = listStr;
     });
