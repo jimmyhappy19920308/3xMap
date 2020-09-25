@@ -80,7 +80,7 @@ function renderList(listDatas){
 
     listStr += `
       <li class="py-3 mx-3 border-bottom">
-        <h5 class="h5 d-flex justify-content-between font-weight-bold text-dark my-2">${listDatas[i].storeNm}<div><a href="#" class="d-inline-block align-middle showTargetMarker" data-lon="${listDatas[i].longitude}" data-lat="${listDatas[i].latitude}"><i class="material-icons h2 mb-0 text-primary">visibility</i></a></div></h5>
+        <h5 class="h5 d-flex justify-content-between font-weight-bold text-dark my-2">${listDatas[i].storeNm}<div><a href="#" class="d-inline-block align-middle showTargetMarker material-icons h2 mb-0" data-lng="${listDatas[i].longitude}" data-lat="${listDatas[i].latitude}">visibility</a></div></h5>
         <p class="text-grayer mb-1">地址：${listDatas[i].zipCd} ${listDatas[i].addr}</p>
         <p class="text-grayer mb-1">電話：${listDatas[i].tel}</p>
         <p class="text-grayer mb-2">營業時間：${listDatas[i].busiTime}</p>
@@ -89,6 +89,29 @@ function renderList(listDatas){
     `;
   }
   list.innerHTML = listStr;
+
+  setViewTargetMarker();
+}
+
+function setViewTargetMarker() {
+  const showTargetMarker = document.querySelectorAll('.showTargetMarker');
+  // 在側邊欄列表中點選其中一間郵局的 icon(眼睛) 時，會將地圖移動到對應的 marker 並顯示 popup 視窗
+  showTargetMarker.forEach(function(element){
+    element.addEventListener('click', function(e){
+      e.preventDefault();
+      const lat = Number(e.target.dataset.lat);
+      const lng = Number(e.target.dataset.lng);
+      const latLng = L.latLng(lat, lng);
+      
+      map.panTo(latLng);
+      markers.eachLayer(function(layer) {
+        if(layer._latlng.lat === lat && layer._latlng.lng === lng){
+          layer.openPopup();
+        }
+      });
+    });
+  })
+  
 }
 
 const get3000Datas = getUrl('https://3000.gov.tw/hpgapi-openmap/api/getPostData');
