@@ -10,6 +10,9 @@ const list = document.querySelector('.list');
 const city = document.querySelector('.city');
 const area = document.querySelector('.area');
 
+let lat;
+let lng;
+
 // 伸縮 sidebar
 sidebarSwitch.addEventListener('click', function (e) {
   sidebar.classList.toggle('active');
@@ -19,8 +22,7 @@ sidebarSwitch.addEventListener('click', function (e) {
 
 // 初始化地圖
 const map = L.map('map', {
-  center: [22.604799, 120.2976256],
-  zoom: 16
+  zoom: 15
 });
 
 // 指定要讓 leftlet 使用的第三方圖資
@@ -110,9 +112,25 @@ function setViewTargetMarker() {
         }
       });
     });
-  })
-  
+  });
 }
+
+
+
+function getGeolocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position) {
+      let latLng;
+
+      lat = position.coords.latitude;
+      lng = position.coords.longitude;
+      latLng = L.latLng(lat, lng);
+
+      map.setView(latLng);
+    });
+  }
+}
+getGeolocation();
 
 const get3000Datas = getUrl('https://3000.gov.tw/hpgapi-openmap/api/getPostData');
 const getCityDatas = getUrl('https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json');
