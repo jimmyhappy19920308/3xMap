@@ -99,8 +99,8 @@ function setViewTargetMarker() {
   showTargetMarker.forEach(function(element){
     element.addEventListener('click', function(e){
       e.preventDefault();
-      const lat = Number(e.target.dataset.lat);
-      const lng = Number(e.target.dataset.lng);
+      const lat = parseInt(e.target.dataset.lat);
+      const lng = parseInt(e.target.dataset.lng);
       const latLng = L.latLng(lat, lng);
       
       map.setView(latLng, 16);
@@ -127,7 +127,7 @@ Promise.all([get3000Datas, getCityDatas])
     for (let i = 0; ticketDatas.length > i; i++) {
       let mask;
       let ticketCountColor;
-      if (Number(ticketDatas[i].total) === 0) {
+      if (parseInt(ticketDatas[i].total) === 0) {
         mask = redIcon;
         ticketCountColor = 'text-danger';
       } else {
