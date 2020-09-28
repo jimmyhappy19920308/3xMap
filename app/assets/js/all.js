@@ -13,12 +13,14 @@ const dayElement = document.querySelector('.day');
 const dateElement = document.querySelector('.date');
 const todayLimitLastIdNumber = document.querySelector('.todayLimitLastIdNumber');
 
+// 建立 Date 物件與將日期相關的資訊存放到常數中方便與日期相關操作
 const date = new Date();
 const day = date.getDay();
 const year = date.getFullYear();
 const month = date.getMonth();
 const todayDate = date.getDate();
 
+// 宣告經緯度的變數以便將使用者的地理位置存放到常數中來使用
 let lat;
 let lng;
 
@@ -62,7 +64,7 @@ const redIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-// 撈取三倍券資料並透過 marker 顯示各家郵局的營業與三倍券資訊
+// 將撈取遠端資料的操作進行封裝以便重複使用
 function getUrl(url) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
@@ -78,6 +80,7 @@ function getUrl(url) {
   });
 }
 
+// 渲染出側邊欄列表資訊
 function renderList(listDatas){
   let listStr = '';
   let btnColor = '';
@@ -104,9 +107,9 @@ function renderList(listDatas){
   setViewTargetMarker();
 }
 
+// 在側邊欄列表中點選其中一間郵局的 icon(眼睛) 時，會將地圖移動到對應的 marker 並顯示 popup 視窗
 function setViewTargetMarker() {
   const showTargetMarker = document.querySelectorAll('.showTargetMarker');
-  // 在側邊欄列表中點選其中一間郵局的 icon(眼睛) 時，會將地圖移動到對應的 marker 並顯示 popup 視窗
   showTargetMarker.forEach(function(element){
     element.addEventListener('click', function(e){
       e.preventDefault();
@@ -124,6 +127,7 @@ function setViewTargetMarker() {
   });
 }
 
+// 首次載入網頁時取得使用者的經緯度座標並設置為地圖中心
 function getGeolocation(){
   if(navigator.geolocation){
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -139,7 +143,7 @@ function getGeolocation(){
 }
 getGeolocation();
 
-// 取得今天是星期幾並顯示到畫面上
+// 顯示今天星期幾到畫面上
 switch (day){
   case 1:
     dayElement.innerHTML = '星期一';
@@ -178,20 +182,23 @@ if(day === 1 || day === 3 || day === 5){
   todayLimitLastIdNumber.innerHTML = `今日郵局沒有營業`;
 }
 
+// 將發送非同步請求後的結果(回傳 promise 物件)先存到常數中，以便透過 promise.all 來執行後續操作
 const get3000Datas = getUrl('https://3000.gov.tw/hpgapi-openmap/api/getPostData');
 const getCityDatas = getUrl('https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json');
+
 
 Promise.all([get3000Datas, getCityDatas])
   .then(res => {
     const ticketDatas = res[0]; // 將撈取到的三倍券即時領券量資料存到變數中
     const cityDatas = res[1]; // 將撈取到的各縣市地區資料存到變數中
-    let selectedCity;
-    let cityStr = '';
+    let selectedCity; // 宣告之後要存放選取縣市的變數
+    let cityStr = ''; // 宣告在選擇縣市的下拉選單中的選項的組字串內容
 
+    // 將每間郵局的 marker 加到到地圖圖層上, 並渲染 pane(點擊 marker 時 popup 的視窗) 的內容
     for (let i = 0; ticketDatas.length > i; i++) {
-      let mask;
-      let ticketCountColor;
-      if (parseInt(ticketDatas[i].total) === 0) {
+      let mask; // 存放 marker icon 樣式的變數
+      let ticketCountColor; // 存放三倍券數量文字樣式 class 的變數
+      if (parseInt(ticketDatas[i].total) === 0) { // 依據三倍券數量是否為 0 調整 marker 樣式與 pane 中的三倍券總數量文字樣式
         mask = redIcon;
         ticketCountColor = 'text-danger';
       } else {
@@ -209,32 +216,34 @@ Promise.all([get3000Datas, getCityDatas])
     });
     renderList(listDatas);
 
+    // 從撈取回來的縣市中逐筆組成選擇縣市的下拉選單中的各個選項
     cityDatas.forEach(function(item, index){
       cityStr += `<option value="${item.CityName}">${item.CityName}</option>`;
     });
     city.innerHTML = cityStr;
 
+    // 依據選取的縣市渲染對應的側邊欄列表資訊
     city.addEventListener('change', function(e){
-      let areaStr = '';
-      selectedCity = e.target.value;
+      let areaStr = ''; // 組選擇地區的下拉選單中的各選項用的字串
+      selectedCity = e.target.value; // 將選取到的縣市儲存到變數中以利其他操作
 
-      const listDatas = ticketDatas.filter(function(item){
+      const listDatas = ticketDatas.filter(function(item){ // 從撈取回來的三倍券資料中過濾出與所選縣市吻合的各筆資料(只需要使用者所選取縣市的三倍券資料)
         return item.addr.includes(selectedCity);
       });
-
       renderList(listDatas);
 
-      let cityList = cityDatas.filter(function(item){
+      let cityList = cityDatas.filter(function(item){ // 從撈取回來的縣市資料中過濾出與所選縣市吻合的資料 (只需要使用者所選取縣市的地區資料)
         return item.CityName === selectedCity;
       });
 
-      areaStr += `<option value="選擇地區">選擇地區</option>`;
-      cityList[0].AreaList.forEach(function(item){
+      areaStr += `<option value="選擇地區">選擇地區</option>`; // 地區下拉選單的預設值
+      cityList[0].AreaList.forEach(function(item){ // 將所選縣市的各地區組成下拉選單中的各選項
         areaStr += `<option value="${item.AreaName}">${item.AreaName}</option>`
       });
-      area.innerHTML = areaStr;
+      area.innerHTML = areaStr; // 將縣市的各地區選項顯示到選取地區的下拉選單元素中
     });
 
+    // 依據選取的地區渲染對應的側邊欄列表資訊
     area.addEventListener('change', function(e){
       let selectedArea = e.target.value;
 
@@ -244,6 +253,6 @@ Promise.all([get3000Datas, getCityDatas])
       renderList(listDatas);
     });
   })
-  .catch(function (err) {
+  .catch(function (err) { // 捕捉非同步請求錯誤時的錯誤訊息
     console.log(err);
   });
