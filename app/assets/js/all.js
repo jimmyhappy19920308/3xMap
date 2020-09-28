@@ -9,6 +9,9 @@ const mapElement = document.getElementById('map');
 const list = document.querySelector('.list');
 const city = document.querySelector('.city');
 const area = document.querySelector('.area');
+const dayElement = document.querySelector('.day');
+
+const date = new Date();
 
 let lat;
 let lng;
@@ -115,8 +118,6 @@ function setViewTargetMarker() {
   });
 }
 
-
-
 function getGeolocation(){
   if(navigator.geolocation){
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -131,6 +132,34 @@ function getGeolocation(){
   }
 }
 getGeolocation();
+
+// 取得今天是星期幾並顯示到畫面上
+const day = date.getDay();
+
+switch (day){
+  case 1:
+    dayElement.innerHTML = '星期一';
+    break;
+  case 2:
+    dayElement.innerHTML = '星期二';
+    break;
+  case 3:
+    dayElement.innerHTML = '星期三';
+    break;
+  case 4:
+    dayElement.innerHTML = '星期四';
+    break;
+  case 5:
+    dayElement.innerHTML = '星期五';
+    break;
+  case 6:
+    dayElement.innerHTML = '星期六';
+    break;
+  case 7:
+    dayElement.innerHTML = '星期日';
+    break;
+}
+
 
 const get3000Datas = getUrl('https://3000.gov.tw/hpgapi-openmap/api/getPostData');
 const getCityDatas = getUrl('https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json');
