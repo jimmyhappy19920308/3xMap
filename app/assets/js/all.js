@@ -196,17 +196,17 @@ Promise.all([get3000Datas, getCityDatas])
 
     // 將每間郵局的 marker 加到到地圖圖層上, 並渲染 pane(點擊 marker 時 popup 的視窗) 的內容
     for (let i = 0; ticketDatas.length > i; i++) {
-      let mask; // 存放 marker icon 樣式的變數
+      let markerIcon; // 存放 marker icon 樣式的變數
       let ticketCountColor; // 存放三倍券數量文字樣式 class 的變數
       if (parseInt(ticketDatas[i].total) === 0) { // 依據三倍券數量是否為 0 調整 marker 樣式與 pane 中的三倍券總數量文字樣式
-        mask = redIcon;
+        markerIcon = redIcon;
         ticketCountColor = 'text-danger';
       } else {
-        mask = greenIcon;
+        markerIcon = greenIcon;
         ticketCountColor = 'text-success';
       }
       markers.addLayer(L.marker([ticketDatas[i].latitude, ticketDatas[i].longitude], {
-        icon: mask
+        icon: markerIcon
       }).bindPopup(`<h5>${ticketDatas[i].storeNm}</h5><p>地址：${ticketDatas[i].addr}</p><p>電話：${ticketDatas[i].tel}</p><p>營業時間：${ticketDatas[i].busiTime}</p><p>剩餘受理量：<strong class="${ticketCountColor}">${ticketDatas[i].total}</strong></p><p>資訊更新時間：${ticketDatas[i].updateTime}</p><p>備註：${ticketDatas[i].busiMemo}</p>`));
     }
 
