@@ -11,6 +11,7 @@ const city = document.querySelector('.city');
 const area = document.querySelector('.area');
 const dayElement = document.querySelector('.day');
 const dateElement = document.querySelector('.date');
+const todayLimitLastIdNumber = document.querySelector('.todayLimitLastIdNumber');
 
 const date = new Date();
 
@@ -167,6 +168,17 @@ const month = date.getMonth();
 const todayDate = date.getDate();
 
 dateElement.innerHTML = `${year}-${month+1}-${todayDate}`;
+
+// 顯示今日可領取(兌換)三倍券的身分證尾碼
+if(day === 1 || day === 3 || day === 5){
+  todayLimitLastIdNumber.innerHTML = `身分證末碼為<span class="h4 text-warning">1,3,5,7,9</span>可領取`;
+}else if(day === 2 || day === 4){
+  todayLimitLastIdNumber.innerHTML = `身分證末碼為<span class="h4 text-warning">2,4,6,8,0</span>可領取`;
+}else if(day === 6){
+  todayLimitLastIdNumber.innerHTML = `身分證末碼單雙號皆可領取`;
+}else{
+  todayLimitLastIdNumber.innerHTML = `今日郵局沒有營業`;
+}
 
 const get3000Datas = getUrl('https://3000.gov.tw/hpgapi-openmap/api/getPostData');
 const getCityDatas = getUrl('https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json');
