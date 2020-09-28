@@ -10,6 +10,7 @@ const list = document.querySelector('.list');
 const city = document.querySelector('.city');
 const area = document.querySelector('.area');
 const dayElement = document.querySelector('.day');
+const dateElement = document.querySelector('.date');
 
 const date = new Date();
 
@@ -160,6 +161,12 @@ switch (day){
     break;
 }
 
+// 將取得的日期(YYYY-mm-dd)顯示到畫面上
+const year = date.getFullYear();
+const month = date.getMonth();
+const todayDate = date.getDate();
+
+dateElement.innerHTML = `${year}-${month+1}-${todayDate}`;
 
 const get3000Datas = getUrl('https://3000.gov.tw/hpgapi-openmap/api/getPostData');
 const getCityDatas = getUrl('https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json');
