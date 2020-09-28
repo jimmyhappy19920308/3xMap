@@ -113,8 +113,8 @@ function setViewTargetMarker() {
   showTargetMarker.forEach(function(element){
     element.addEventListener('click', function(e){
       e.preventDefault();
-      const lat = parseInt(e.target.dataset.lat);
-      const lng = parseInt(e.target.dataset.lng);
+      const lat = parseFloat(e.target.dataset.lat);
+      const lng = parseFloat(e.target.dataset.lng);
       const latLng = L.latLng(lat, lng);
       
       map.setView(latLng, 16);
