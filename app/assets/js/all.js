@@ -14,6 +14,10 @@ const dateElement = document.querySelector('.date');
 const todayLimitLastIdNumber = document.querySelector('.todayLimitLastIdNumber');
 
 const date = new Date();
+const day = date.getDay();
+const year = date.getFullYear();
+const month = date.getMonth();
+const todayDate = date.getDate();
 
 let lat;
 let lng;
@@ -136,8 +140,6 @@ function getGeolocation(){
 getGeolocation();
 
 // 取得今天是星期幾並顯示到畫面上
-const day = date.getDay();
-
 switch (day){
   case 1:
     dayElement.innerHTML = '星期一';
@@ -163,10 +165,6 @@ switch (day){
 }
 
 // 將取得的日期(YYYY-mm-dd)顯示到畫面上
-const year = date.getFullYear();
-const month = date.getMonth();
-const todayDate = date.getDate();
-
 dateElement.innerHTML = `${year}-${month+1}-${todayDate}`;
 
 // 顯示今日可領取(兌換)三倍券的身分證尾碼
