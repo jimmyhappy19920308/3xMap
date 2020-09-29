@@ -191,8 +191,9 @@ Promise.all([get3000Datas, getCityDatas])
   .then(res => {
     const ticketDatas = res[0]; // 將撈取到的三倍券即時領券量資料存到變數中
     const cityDatas = res[1]; // 將撈取到的各縣市地區資料存到變數中
-    let selectedCity; // 宣告之後要存放選取縣市的變數
+    let selectedCity = '臺北市'; // 存放選取縣市的變數(預設為臺北市)
     let cityStr = ''; // 宣告在選擇縣市的下拉選單中的選項的組字串內容
+    let defaultAreaStr = ''; // 首次載入頁面時選擇地區下拉選單各選項的字串
 
     // 將每間郵局的 marker 加到到地圖圖層上, 並渲染 pane(點擊 marker 時 popup 的視窗) 的內容
     for (let i = 0; ticketDatas.length > i; i++) {
@@ -215,6 +216,16 @@ Promise.all([get3000Datas, getCityDatas])
       return item.hsnNm === '臺北市';
     });
     renderList(listDatas);
+
+    // 首次載入頁面時渲染預設的選擇地區下拉選單的各選項
+    const defaultCity = cityDatas.filter(function(city){
+      return city.CityName === '臺北市'
+    });
+    defaultAreaStr +=`<option value="全部地區">全部地區</option>`;
+    defaultCity[0].AreaList.forEach(function(area){
+      defaultAreaStr +=`<option value="${area.AreaName}">${area.AreaName}</option>`;
+    });
+    area.innerHTML = defaultAreaStr;
 
     // 從撈取回來的縣市中逐筆組成選擇縣市的下拉選單中的各個選項
     cityDatas.forEach(function(item, index){
