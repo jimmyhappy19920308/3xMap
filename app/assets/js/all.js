@@ -247,7 +247,7 @@ Promise.all([get3000Datas, getCityDatas])
         return item.CityName === selectedCity;
       });
 
-      areaStr += `<option value="選擇地區">選擇地區</option>`; // 地區下拉選單的預設值
+      areaStr += `<option value="全部地區">全部地區</option>`; // 地區下拉選單的預設值
       cityList[0].AreaList.forEach(function(item){ // 將所選縣市的各地區組成下拉選單中的各選項
         areaStr += `<option value="${item.AreaName}">${item.AreaName}</option>`
       });
@@ -257,10 +257,17 @@ Promise.all([get3000Datas, getCityDatas])
     // 依據選取的地區渲染對應的側邊欄列表資訊
     area.addEventListener('change', function(e){
       let selectedArea = e.target.value;
+      let listDatas;
 
-      const listDatas = ticketDatas.filter(item => {
-        return item.addr.includes(selectedCity+selectedArea);
-      });
+      if(selectedArea === '全部地區'){
+        listDatas = ticketDatas.filter(item => {
+          return item.addr.includes(selectedCity);
+        });
+      }else{
+        listDatas = ticketDatas.filter(item => {
+          return item.addr.includes(selectedCity+selectedArea);
+        });
+      }
       renderList(listDatas);
     });
   })
