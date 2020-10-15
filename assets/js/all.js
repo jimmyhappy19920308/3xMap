@@ -103,7 +103,7 @@ function setViewTargetMarker() {
       var lat = parseFloat(e.target.dataset.lat);
       var lng = parseFloat(e.target.dataset.lng);
       var latLng = L.latLng(lat, lng);
-      var mediaQueryList = window.matchMedia("(max-width: 414px)"); // 將要匹配的螢幕解析度儲存到常數中
+      var mediaQueryList = window.matchMedia("(max-width: 768px)"); // 將要匹配的螢幕解析度儲存到常數中
 
       map.setView(latLng, 16);
       markers.eachLayer(function (layer) {
@@ -113,7 +113,7 @@ function setViewTargetMarker() {
       });
 
       if (mediaQueryList.matches) {
-        // 判斷螢幕解析度是否符合 414px
+        // 判斷螢幕解析度是否符合 768px
         sidebar.classList.toggle('active');
         sidebarSwitch.classList.toggle('active');
         mapElement.classList.toggle('active');

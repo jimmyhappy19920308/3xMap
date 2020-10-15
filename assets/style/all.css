@@ -10273,6 +10273,12 @@ body {
   overflow-y: scroll;
 }
 
+@media (max-width: 768px) {
+  .list {
+    background: #ffffff;
+  }
+}
+
 @media (max-width: 320px) {
   .list h5 {
     font-size: 1.125rem;
@@ -10296,13 +10302,7 @@ body {
 
 @media (max-width: 768px) {
   #map {
-    left: 50%;
-  }
-}
-
-@media (max-width: 414px) {
-  #map {
-    left: 90%;
+    left: 0%;
   }
 }
 
