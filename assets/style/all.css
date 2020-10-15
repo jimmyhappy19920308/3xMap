@@ -10231,11 +10231,29 @@ body {
   transition: all .3s;
 }
 
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 40%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 50%;
+  }
+}
+
+@media (max-width: 414px) {
+  .sidebar {
+    width: 90%;
+  }
+}
+
 .sidebarSwitch {
   position: absolute;
   top: 0;
   bottom: 0;
-  z-index: 3;
+  z-index: 1;
   right: -24px;
   margin: auto;
   height: 50px;
@@ -10255,6 +10273,12 @@ body {
   overflow-y: scroll;
 }
 
+@media (max-width: 320px) {
+  .list h5 {
+    font-size: 1.125rem;
+  }
+}
+
 #map {
   position: absolute;
   right: 0;
@@ -10262,6 +10286,24 @@ body {
   z-index: 0;
   height: 100vh;
   transition: .3s;
+}
+
+@media (max-width: 1024px) {
+  #map {
+    left: 40%;
+  }
+}
+
+@media (max-width: 768px) {
+  #map {
+    left: 50%;
+  }
+}
+
+@media (max-width: 414px) {
+  #map {
+    left: 90%;
+  }
 }
 
 #map.active {
@@ -10295,6 +10337,30 @@ body {
 
 .todayLimitLastIdNumber {
   font-size: 1rem;
+}
+
+@media (max-width: 414px) {
+  .todayLimitLastIdNumber span {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .todayLimitLastIdNumber span {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 414px) {
+  .day {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .day {
+    font-size: 1rem;
+  }
 }
 
 /*# sourceMappingURL=all.css.map */

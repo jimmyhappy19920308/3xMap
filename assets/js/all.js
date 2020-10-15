@@ -30,6 +30,7 @@ sidebarSwitch.addEventListener('click', function (e) {
 }); // 初始化地圖
 
 var map = L.map('map', {
+  center: [23.9134578, 120.6903032],
   zoom: 15
 }); // 指定要讓 leftlet 使用的第三方圖資
 
@@ -37,8 +38,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map); // 將群集化 marker 圖層加到地圖上
 
-var markers = new L.MarkerClusterGroup().addTo(map);
-; // 新增有三倍券時 marker 的圖標
+var markers = new L.MarkerClusterGroup().addTo(map); // 新增有三倍券時 marker 的圖標
 
 var greenIcon = new L.Icon({
   iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -103,12 +103,21 @@ function setViewTargetMarker() {
       var lat = parseFloat(e.target.dataset.lat);
       var lng = parseFloat(e.target.dataset.lng);
       var latLng = L.latLng(lat, lng);
+      var mediaQueryList = window.matchMedia("(max-width: 414px)"); // 將要匹配的螢幕解析度儲存到常數中
+
       map.setView(latLng, 16);
       markers.eachLayer(function (layer) {
         if (layer._latlng.lat === lat && layer._latlng.lng === lng) {
           layer.openPopup();
         }
       });
+
+      if (mediaQueryList.matches) {
+        // 判斷螢幕解析度是否符合 414px
+        sidebar.classList.toggle('active');
+        sidebarSwitch.classList.toggle('active');
+        mapElement.classList.toggle('active');
+      }
     });
   });
 } // 首次載入網頁時取得使用者的經緯度座標並設置為地圖中心
@@ -203,8 +212,10 @@ Promise.all([get3000Datas, getCityDatas]).then(function (res) {
     markers.addLayer(L.marker([ticketDatas[i].latitude, ticketDatas[i].longitude], {
       icon: markerIcon
     }).bindPopup("<h5>".concat(ticketDatas[i].storeNm, "</h5><p>\u5730\u5740\uFF1A").concat(ticketDatas[i].addr, "</p><p>\u96FB\u8A71\uFF1A").concat(ticketDatas[i].tel, "</p><p>\u71DF\u696D\u6642\u9593\uFF1A").concat(ticketDatas[i].busiTime, "</p><p>\u5269\u9918\u53D7\u7406\u91CF\uFF1A<strong class=\"").concat(ticketCountColor, "\">").concat(ticketDatas[i].total, "</strong></p><p>\u8CC7\u8A0A\u66F4\u65B0\u6642\u9593\uFF1A").concat(ticketDatas[i].updateTime, "</p><p>\u5099\u8A3B\uFF1A").concat(ticketDatas[i].busiMemo, "</p>")));
-  } // 首次載入頁面時側邊欄中預設顯示台北市的資料列表
+  }
 
+  map.addLayer(markers); // 將 markers 加入到地圖圖層上
+  // 首次載入頁面時側邊欄中預設顯示台北市的資料列表
 
   var listDatas = ticketDatas.filter(function (item) {
     return item.hsnNm === '臺北市';
